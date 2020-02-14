@@ -1,0 +1,44 @@
+
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "",
+    "Metadata": {
+
+    },
+    "Parameters": {
+
+    },
+    "Mappings": {
+
+    },
+    "Conditions": {
+
+    }
+
+    },
+    "Resources": {"MyAppVpc": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "Tags": [{ "Key": "ame", "Value":  "MyAppVpc" }-]
+      }
+    }
+
+    },
+    "MyAppVpcigw": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [{ "Key": "Name", "Value":  "MyAppVpcigw" }]
+      }
+    },
+    "AttachGateway": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": { "Ref": "MyAppVpc" },
+        "InternetGatewayId": { "Ref": "MyAppVpcigw" }
+      }
+    },
+    "Outputs": {
+
+    }
+}

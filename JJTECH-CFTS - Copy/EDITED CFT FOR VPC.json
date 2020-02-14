@@ -1,0 +1,74 @@
+
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "",
+    "Metadata": {
+
+    },
+    "Parameters": {
+
+    },
+    "Mappings": {
+
+    },
+    "Conditions": {
+
+    },
+    "Resources": {"MyAppVpc": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "Tags": [{ "Key": "ame", "Value":  "MyAppVpc" }]
+      }
+    },
+    "MyAppVpcigw": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [{ "Key": "Name", "Value":  "MyAppVpcigw" }]
+      }
+    },
+    "AttachGateway": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": { "Ref": "MyAppVpc" },
+        "InternetGatewayId": { "Ref": "MyAppVpcigw" }
+      }
+    },
+    "Publicsubnet": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "AvailabilityZone": "us-east-1a",
+        "VpcId": { "Ref": "MyAppVpc" },
+        "CidrBlock": "10.0.1.0/24",
+        "Tags": [{ "Key": "Name", "Value":  "Jjtech_cft_subnet" }]
+      }
+    },
+    "Privatesubnet": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "AvailabilityZone": "us-east-1a",
+        "VpcId": { "Ref": "MyAppVpc" },
+        "CidrBlock": "10.0.2.0/24",
+        "Tags": [{ "Key": "Name", "Value":  "Jjtech_cft_subnet1" }]
+      }
+    },
+    "Routable1": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": { "Ref": "MyAppVpc" },
+        "Tags": [{ "Key": "Name", "Value":  "Jjtech_cft_rt" }]
+      }
+    },
+    "Rout1": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": { "Ref": "Routable1" },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": { "Ref": "MyAppVpcigw" }
+      }
+    }
+  },
+    "Outputs": {
+
+    }
+}
